@@ -1,0 +1,56 @@
+establish_context
+enable_trace
+enable_timer
+card_connect
+# NDEF Tag Application select
+#  - 00 = CLA
+#  - A4 = select command
+#  - 04 = select by name
+#  - 00 = first or only occurence
+#  - 07 = Lc field
+#  - D2760000850101 = name of application
+send_apdu -sc 0 -APDU 00A4040007D2760000850101
+# Capability Container selection
+#  - 00 = CLA
+#  - A4 = select command
+#  - 04 = select by name
+#  - 00 = first or only occurence
+#  - 02 = Lc field
+#  - E103 = name of application
+send_apdu -sc 0 -APDU 00A4000C02E103
+# Capability Container selection
+#  - 00 = CLA
+#  - A4 = select command
+#  - 04 = select by name
+#  - 00 = first or only occurence
+#  - 02 = Lc field
+#  - E104 = file identifier
+send_apdu -sc 0 -APDU 00A4000C02E104
+#Read 64 bytes
+send_apdu -sc 0 -APDU 00B0000040
+card_disconnect
+release_context
+
+establish_context
+enable_trace
+enable_timer
+card_connect
+send_apdu -sc 0 -APDU 00A4040007D2760000850101
+send_apdu -sc 0 -APDU 00A4000C02E103
+send_apdu -sc 0 -APDU 00A4000C02E104
+#Write first 32 bytes
+send_apdu -sc 0 -APDU 00D60000200000000000000000000000000000000000000000000000000000000000000000
+card_disconnect
+release_context
+
+establish_context
+enable_trace
+enable_timer
+card_connect
+send_apdu -sc 0 -APDU 00A4040007D2760000850101
+send_apdu -sc 0 -APDU 00A4000C02E103
+send_apdu -sc 0 -APDU 00A4000C02E104
+#Write second 32 bytes
+send_apdu -sc 0 -APDU 00D60020200000000000000000000000000000000000000000000000000000000000000000
+card_disconnect
+release_context
