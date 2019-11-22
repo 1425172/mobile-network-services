@@ -1,6 +1,6 @@
-package at.ac.tuwien.nsa.gr12.comparelocations.core.model
+package at.ac.tuwien.nsa.gr12.comparelocations.adapter.mozilla.location.service.model
 
-class AccessPoint(
+class MLSWifiAccessPoint(
     var macAddress: String? = null,
     var signalStrength: Int? = null
 ) {

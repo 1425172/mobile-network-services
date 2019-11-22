@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.CellTowersPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.MozillaLocationServicePort
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.WifiPort
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,8 +27,10 @@ import org.kodein.di.generic.instance
 class MainFragment : Fragment(), KodeinAware {
 
     override val kodein: Kodein by closestKodein()
+
     private val wifiPort by instance<WifiPort>()
     private val cellPort by instance<CellTowersPort>()
+    private val mlsPort by instance<MozillaLocationServicePort>()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -55,14 +58,11 @@ class MainFragment : Fragment(), KodeinAware {
             ) {
                 GlobalScope.launch {
                     val accessPoints = wifiPort.getAsync().await()
-                    accessPoints.forEach { ac ->
-                        Log.i(javaClass.name, ac.toString())
-                    }
+                    val cellTowers = cellPort.get()
+                    val location = mlsPort.get(accessPoints, cellTowers)
+                    Log.i("#####################", location.toString())
                 }
-                val cellTowers = cellPort.get()
-                cellTowers.forEach { ct ->
-                    Log.i(javaClass.name, ct.toString())
-                }
+
             } else {
                 requestLocationPermission(this.activity)
             }

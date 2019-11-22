@@ -6,5 +6,5 @@ import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Location
 
 interface MozillaLocationServicePort {
 
-    fun get(accessPoints: List<AccessPoint>, cellTowers: List<CellTower>): Location
+    suspend fun get(accessPoints: List<AccessPoint>, cellTowers: List<CellTower>): Location
 }
