@@ -1,7 +1,7 @@
 package at.ac.tuwien.nsa.gr12.comparelocations
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import at.ac.tuwien.nsa.gr12.comparelocations.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
-    }
 
+
+    }
 }
