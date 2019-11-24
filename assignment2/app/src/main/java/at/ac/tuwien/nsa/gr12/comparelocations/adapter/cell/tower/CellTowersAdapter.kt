@@ -5,6 +5,8 @@ import android.content.Context
 import android.telephony.*
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.CellTower
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.CellTowersPort
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 
 class CellTowersAdapter(context: Context) : CellTowersPort {
 
@@ -12,9 +14,13 @@ class CellTowersAdapter(context: Context) : CellTowersPort {
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
     @SuppressLint("MissingPermission")
-    override fun get(): List<CellTower> {
+    override fun getAsync(): Deferred<List<CellTower>> {
         val results = telephonyManager.allCellInfo
-        return results.mapNotNull { r -> mapToCellTower(r) }
+        val cellTowers = results.mapNotNull { r -> mapToCellTower(r) }
+
+        val deferred: CompletableDeferred<List<CellTower>> = CompletableDeferred()
+        deferred.complete(cellTowers)
+        return deferred
     }
 
     private fun mapToCellTower(cellInfo: CellInfo): CellTower? {

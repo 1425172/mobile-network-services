@@ -60,7 +60,7 @@ class MainFragment : Fragment(), KodeinAware {
             ) {
                 GlobalScope.launch {
                     val accessPoints = wifiPort.getAsync().await()
-                    val cellTowers = cellPort.get()
+                    val cellTowers = cellPort.getAsync().await()
                     val location = mlsPort.get(accessPoints, cellTowers)
                     Log.i("##################### MLS", location.toString())
                 }
