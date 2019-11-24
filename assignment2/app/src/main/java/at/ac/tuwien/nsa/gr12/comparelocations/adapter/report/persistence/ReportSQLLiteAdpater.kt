@@ -1,9 +1,9 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence
 
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.ReportPersistencePort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.ReportPersistenceInterface
 
-class ReportSQLLiteAdpater : ReportPersistencePort {
+class ReportSQLLiteAdpater : ReportPersistenceInterface {
     override fun add(report: Report) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -6,13 +6,13 @@ import at.ac.tuwien.nsa.gr12.comparelocations.adapter.mozilla.location.service.m
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.AccessPoint
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.CellTower
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Location
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.MozillaLocationServicePort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.LocationServiceInterface
 import org.mapstruct.factory.Mappers
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MozillaLocationServiceAdapter : MozillaLocationServicePort {
+class MozillaLocationServiceAdapter : LocationServiceInterface {
 
     private val requestMapper = Mappers.getMapper(RequestMapper::class.java)
     private val responseMapper = Mappers.getMapper(ResponseMapper::class.java)

@@ -2,7 +2,7 @@ package at.ac.tuwien.nsa.gr12.comparelocations.adapter.mozilla.location.service.
 
 class MLSResponse(
     var location: MLSLocation? = null,
-    var accuracy: Double? = null
+    var accuracy: Float? = null
 ) {
     constructor() : this(null, null)
 }

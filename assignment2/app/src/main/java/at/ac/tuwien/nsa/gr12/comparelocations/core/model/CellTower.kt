@@ -1,6 +1,6 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.core.model
 
-class CellTower(
+data class CellTower(
     var radioType: String? = null,
     var mobileCountryCode: Int? = null,
     var mobileNetworkCode: Int? = null,

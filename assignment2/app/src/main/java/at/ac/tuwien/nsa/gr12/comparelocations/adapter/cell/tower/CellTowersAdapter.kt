@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.telephony.*
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.CellTower
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.CellTowersPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.CellTowersInterface
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 
-class CellTowersAdapter(context: Context) : CellTowersPort {
+class CellTowersAdapter(context: Context) : CellTowersInterface {
 
     private val telephonyManager =
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

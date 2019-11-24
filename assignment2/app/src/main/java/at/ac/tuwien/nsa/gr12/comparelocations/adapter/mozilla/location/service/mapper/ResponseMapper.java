@@ -15,8 +15,7 @@ public interface ResponseMapper {
 
     @Mappings({
             @Mapping(target = "latitude", source = "location.lat"),
-            @Mapping(target = "longitude", source = "location.lng"),
-            @Mapping(target = "accuracy", source = "accuracy")
+            @Mapping(target = "longitude", source = "location.lng")
     })
     Location map(MLSResponse response);
 }

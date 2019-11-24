@@ -14,10 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.R
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.CellTowersPort
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.GPSPort
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.MozillaLocationServicePort
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.WifiPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -29,10 +26,7 @@ class MainFragment : Fragment(), KodeinAware {
 
     override val kodein: Kodein by closestKodein()
 
-    private val wifiPort by instance<WifiPort>()
-    private val cellPort by instance<CellTowersPort>()
-    private val mlsPort by instance<MozillaLocationServicePort>()
-    private val gpsPort by instance<GPSPort>()
+    private val reportUseCase by instance<ReportUseCase>()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -59,14 +53,9 @@ class MainFragment : Fragment(), KodeinAware {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    val accessPoints = wifiPort.getAsync().await()
-                    val cellTowers = cellPort.getAsync().await()
-                    val location = mlsPort.get(accessPoints, cellTowers)
-                    Log.i("##################### MLS", location.toString())
-                }
-                GlobalScope.launch {
-                    val gpsLocation = gpsPort.getAsync().await()
-                    Log.i("##################### GPS", gpsLocation.toString())
+                    val report = reportUseCase.getNew()
+                    Log.i("##################### Report", report.toString())
+                    Log.i("##################### distance", report.distance().toString())
                 }
 
             } else {

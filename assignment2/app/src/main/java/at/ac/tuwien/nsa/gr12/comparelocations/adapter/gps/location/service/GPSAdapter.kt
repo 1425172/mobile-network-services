@@ -5,12 +5,12 @@ import android.content.Context
 import android.location.LocationManager
 import android.os.Looper
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Location
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.GPSPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.GPSInterface
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import java.lang.RuntimeException
 
-class GPSAdapter(context: Context) : GPSPort {
+class GPSAdapter(context: Context) : GPSInterface {
 
     private val locationManager =
         context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -47,7 +47,7 @@ class GPSAdapter(context: Context) : GPSPort {
 
         val latitude: Double = androidLocation.latitude
         val longitude: Double? = androidLocation.longitude
-        val accuracy: Int? = androidLocation.accuracy.toInt()
+        val accuracy: Float? = androidLocation.accuracy
 
         val location = Location(latitude, longitude, accuracy)
 

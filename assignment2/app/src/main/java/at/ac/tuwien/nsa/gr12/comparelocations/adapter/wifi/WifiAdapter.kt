@@ -5,11 +5,11 @@ import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.widget.Toast
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.AccessPoint
-import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.WifiPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.WifiInterface
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 
-class WifiAdapter(private val context: Context) : WifiPort {
+class WifiAdapter(private val context: Context) : WifiInterface {
 
     private val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
