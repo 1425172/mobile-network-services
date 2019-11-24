@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.widget.Toast
-import at.ac.tuwien.nsa.gr12.comparelocations.core.model.AccessPoint
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.WifiInterface
+import at.ac.tuwien.nsa.gr12.comparelocations.core.model.AccessPoint
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 
@@ -46,9 +46,9 @@ class WifiAdapter(private val context: Context) : WifiInterface {
         }
 
         val results = wifiManager.scanResults
-        val accessPoints = results.map { r ->
-            val macAddress = r.BSSID
-            val signalStrength = r.level
+        val accessPoints = results.map {
+            val macAddress = it.BSSID
+            val signalStrength = it.level
             AccessPoint(macAddress, signalStrength)
         }
         deferred!!.complete(accessPoints)

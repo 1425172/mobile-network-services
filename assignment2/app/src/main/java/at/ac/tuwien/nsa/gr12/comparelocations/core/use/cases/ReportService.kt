@@ -22,13 +22,16 @@ class ReportService(
         val mlsLocation = locationServiceInterface.get(accessPoints, cellTowers)
 
         val gpsLocation = gpsLocationAsync.await()
-        return Report(null, Date(), gpsLocation, accessPoints, cellTowers, mlsLocation)
+        val report =  Report(null, Date(), gpsLocation, accessPoints, cellTowers, mlsLocation)
+
+        return reportPersistenceInterface.add(report)
     }
 
     override suspend fun getAll(): List<Report> {
-        return mutableListOf()
+        return reportPersistenceInterface.getAll()
     }
 
-    override suspend fun delete(report: Report) {
+    override suspend fun remove(report: Report) {
+        reportPersistenceInterface.remove(report)
     }
 }

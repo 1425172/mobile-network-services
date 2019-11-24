@@ -56,6 +56,12 @@ class MainFragment : Fragment(), KodeinAware {
                     val report = reportUseCase.getNew()
                     Log.i("##################### Report", report.toString())
                     Log.i("##################### distance", report.distance().toString())
+
+                    reportUseCase.remove(report)
+                    val reports = reportUseCase.getAll()
+                    reports.forEach {
+                        Log.i("################ Reports", it.toString())
+                    }
                 }
 
             } else {

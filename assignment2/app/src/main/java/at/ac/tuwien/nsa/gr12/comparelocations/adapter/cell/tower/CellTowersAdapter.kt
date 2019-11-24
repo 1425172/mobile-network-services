@@ -16,7 +16,7 @@ class CellTowersAdapter(context: Context) : CellTowersInterface {
     @SuppressLint("MissingPermission")
     override fun getAsync(): Deferred<List<CellTower>> {
         val results = telephonyManager.allCellInfo
-        val cellTowers = results.mapNotNull { r -> mapToCellTower(r) }
+        val cellTowers = results.mapNotNull { mapToCellTower(it) }
 
         val deferred: CompletableDeferred<List<CellTower>> = CompletableDeferred()
         deferred.complete(cellTowers)

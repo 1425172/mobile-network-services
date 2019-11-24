@@ -8,5 +8,5 @@ interface ReportUseCase {
 
     suspend fun getAll(): List<Report>
 
-    suspend fun delete(report: Report)
+    suspend fun remove(report: Report)
 }
