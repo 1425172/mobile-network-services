@@ -28,9 +28,13 @@ class WifiAdapter(private val context: Context) : WifiPort {
 
         enableWifi()
 
+        @Suppress("DEPRECATION")
         val success = wifiManager.startScan()
         if (!success) {
             scanFailure()
+            val failureDef: CompletableDeferred<List<AccessPoint>> = CompletableDeferred()
+            failureDef.completeExceptionally(RuntimeException("Could initialize wifi scan"))
+            return failureDef
         }
 
         return deferred!!
@@ -48,6 +52,7 @@ class WifiAdapter(private val context: Context) : WifiPort {
             AccessPoint(macAddress, signalStrength)
         }
         deferred!!.complete(accessPoints)
+        deferred = null
     }
 
     private fun scanFailure() {
@@ -56,6 +61,7 @@ class WifiAdapter(private val context: Context) : WifiPort {
         }
 
         deferred!!.completeExceptionally(RuntimeException("Scanning the nearby access points failed"))
+        deferred = null
     }
 
     private fun enableWifi() {
@@ -63,6 +69,7 @@ class WifiAdapter(private val context: Context) : WifiPort {
             return
         }
         Toast.makeText(context, "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show()
-        wifiManager.setWifiEnabled(true)
+        @Suppress("DEPRECATION")
+        wifiManager.isWifiEnabled = true
     }
 }

@@ -1,8 +1,9 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.core.ports
 
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Location
+import kotlinx.coroutines.Deferred
 
-interface GoogleLocationServicePort {
+interface GPSPort {
 
-    fun get(): Location
+    fun getAsync(): Deferred<Location>
 }

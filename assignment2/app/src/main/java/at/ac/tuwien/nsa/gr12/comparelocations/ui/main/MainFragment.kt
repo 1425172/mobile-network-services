@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.CellTowersPort
+import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.GPSPort
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.MozillaLocationServicePort
 import at.ac.tuwien.nsa.gr12.comparelocations.core.ports.WifiPort
 import kotlinx.coroutines.GlobalScope
@@ -31,6 +32,7 @@ class MainFragment : Fragment(), KodeinAware {
     private val wifiPort by instance<WifiPort>()
     private val cellPort by instance<CellTowersPort>()
     private val mlsPort by instance<MozillaLocationServicePort>()
+    private val gpsPort by instance<GPSPort>()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -46,7 +48,7 @@ class MainFragment : Fragment(), KodeinAware {
         val view = inflater.inflate(R.layout.main_fragment, container, false);
 
         val button = view.findViewById<Button>(R.id.button)
-        button.setOnClickListener { v ->
+        button.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
                     view.context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
@@ -60,7 +62,11 @@ class MainFragment : Fragment(), KodeinAware {
                     val accessPoints = wifiPort.getAsync().await()
                     val cellTowers = cellPort.get()
                     val location = mlsPort.get(accessPoints, cellTowers)
-                    Log.i("#####################", location.toString())
+                    Log.i("##################### MLS", location.toString())
+                }
+                GlobalScope.launch {
+                    val gpsLocation = gpsPort.getAsync().await()
+                    Log.i("##################### GPS", gpsLocation.toString())
                 }
 
             } else {
