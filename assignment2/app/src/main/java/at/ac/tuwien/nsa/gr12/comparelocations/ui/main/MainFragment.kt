@@ -10,15 +10,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.MainActivity
+import androidx.recyclerview.widget.RecyclerView
 import at.ac.tuwien.nsa.gr12.comparelocations.R
+import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.dummy.DummyContent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -26,7 +32,13 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class MainFragment : Fragment(), KodeinAware {
+class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
+
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        fragmentManager?.beginTransaction()?.replace(R.id.container, DetailsFragment.newInstance())
+            ?.addToBackStack("hoehoe")
+            ?.commit()
+    }
 
     override val kodein: Kodein by closestKodein()
 
@@ -70,6 +82,10 @@ class MainFragment : Fragment(), KodeinAware {
                     reports.forEach {
                         Log.i("################ Reports", it.toString())
                     }
+
+                    //val allData: LiveData<List<Report>> = viewModel?.getAllData()
+//
+                    //Log.i(allData.value?.get(0)?.date.toString(), "hasdflkjsadlfjsalfdkj")
                 }
 
             } else {
@@ -77,13 +93,16 @@ class MainFragment : Fragment(), KodeinAware {
             }
         }
 
+        // val recyclerView = view.findViewById<RecyclerView>(R.id.reportList)
+        // recyclerView?.adapter = ReportRecyclerViewAdapter(DummyContent.ITEMS, this)
+
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(this, MainViewModelFactory(context!!))
+            .get(MainViewModel::class.java)
     }
 
     private fun requestLocationPermission(activity: Activity?) {
