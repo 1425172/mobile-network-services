@@ -2,7 +2,9 @@ package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +15,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import at.ac.tuwien.nsa.gr12.comparelocations.MainActivity
 import at.ac.tuwien.nsa.gr12.comparelocations.R
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,6 +31,7 @@ class MainFragment : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
 
     private val reportUseCase by instance<ReportUseCase>()
+    private val mailUseCase by instance<MailUseCase>()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -53,12 +58,15 @@ class MainFragment : Fragment(), KodeinAware {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    val report = reportUseCase.getNew()
-                    Log.i("##################### Report", report.toString())
-                    Log.i("##################### distance", report.distance().toString())
-
-                    reportUseCase.remove(report)
+                    //                    val report = reportUseCase.getNew()
+//                    Log.i("##################### Report", report.toString())
+//                    Log.i("##################### distance", report.distance().toString())
+//                    mailUseCase.send(report)
+//                    reportUseCase.remove(report)
                     val reports = reportUseCase.getAll()
+                    val intent = mailUseCase.send(reports[0])
+                    startActivity(intent)
+
                     reports.forEach {
                         Log.i("################ Reports", it.toString())
                     }

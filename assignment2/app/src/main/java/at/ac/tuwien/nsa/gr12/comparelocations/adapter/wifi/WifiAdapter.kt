@@ -3,6 +3,7 @@ package at.ac.tuwien.nsa.gr12.comparelocations.adapter.wifi
 import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
+import android.os.Looper
 import android.widget.Toast
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.WifiInterface
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.AccessPoint
@@ -68,6 +69,7 @@ class WifiAdapter(private val context: Context) : WifiInterface {
         if (wifiManager.isWifiEnabled) {
             return
         }
+        Looper.prepare()
         Toast.makeText(context, "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show()
         @Suppress("DEPRECATION")
         wifiManager.isWifiEnabled = true
