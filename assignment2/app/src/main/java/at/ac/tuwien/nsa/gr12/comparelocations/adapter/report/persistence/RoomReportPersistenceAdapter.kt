@@ -2,26 +2,43 @@ package at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import android.util.Log
 import androidx.room.Room
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence.mapper.ReportMapper
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.KeyStoreInterface
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.ReportPersistenceInterface
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
+import com.commonsware.cwac.saferoom.SQLCipherUtils
 import com.commonsware.cwac.saferoom.SafeHelperFactory
 import org.mapstruct.factory.Mappers
 
-class RoomReportPersistenceAdapter(context: Context, keyStore: KeyStoreInterface) : ReportPersistenceInterface {
+class RoomReportPersistenceAdapter(
+    private val context: Context,
+    private val keyStore: KeyStoreInterface
+) : ReportPersistenceInterface {
 
-    private val factory: SafeHelperFactory = SafeHelperFactory.fromUser(SpannableStringBuilder(keyStore.databaseKey()))
+    private val preferencesFileKey = "PREFERENCES"
+    private val encryptionEnabled = "ENCRYPTION_ENABLED"
+    private val databaseName = "reports"
 
-    private val reportDao = Room.databaseBuilder(
-        context,
-        ReportDatabase::class.java, "reports_encrypted"
-    ).openHelperFactory(factory)
-        .build()
-        .reportDao()
+    private val factory: SafeHelperFactory =
+        SafeHelperFactory.fromUser(SpannableStringBuilder(keyStore.databaseKey()))
 
+    private var database: ReportDatabase
+    private var reportDao: ReportDao
     private val mapper = Mappers.getMapper(ReportMapper::class.java)
+
+    init {
+        val sharedPreferences =
+            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
+        val enabled = sharedPreferences.getBoolean(encryptionEnabled, false)
+        if (enabled) {
+            this.database = getEncryptedDatabase()
+        } else {
+            this.database = getPlainDatabase()
+        }
+        this.reportDao = this.database.reportDao()
+    }
 
     override fun add(report: Report): Report {
         val entity = mapper.toEntity(report)
@@ -40,5 +57,41 @@ class RoomReportPersistenceAdapter(context: Context, keyStore: KeyStoreInterface
     override fun remove(report: Report) {
         val entity = mapper.toEntity(report)
         reportDao.delete(entity)
+    }
+
+    override fun encrypt() {
+        val sharedPreferences =
+            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
+        val enabled = sharedPreferences.getBoolean(encryptionEnabled, false)
+        if (enabled) {
+            return
+        }
+        this.database.close()
+        SQLCipherUtils.encrypt(
+            this.context,
+            databaseName,
+            SpannableStringBuilder(this.keyStore.databaseKey())
+        )
+        this.database = getEncryptedDatabase()
+        this.reportDao = this.database.reportDao()
+
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(encryptionEnabled, true)
+        editor.apply()
+    }
+
+    private fun getPlainDatabase(): ReportDatabase {
+        return Room.databaseBuilder(
+            context,
+            ReportDatabase::class.java, databaseName
+        ).build()
+    }
+
+    private fun getEncryptedDatabase(): ReportDatabase {
+        return Room.databaseBuilder(
+            context,
+            ReportDatabase::class.java, databaseName
+        ).openHelperFactory(factory)
+            .build()
     }
 }

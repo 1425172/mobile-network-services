@@ -9,10 +9,7 @@ import at.ac.tuwien.nsa.gr12.comparelocations.adapter.mozilla.location.service.M
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence.RoomReportPersistenceAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.wifi.WifiAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.*
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailService
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportService
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind
@@ -38,5 +35,6 @@ class CompareLocationsApplication : Application(), KodeinAware {
             ReportService(instance(), instance(), instance(), instance(), instance())
         }
         bind<MailUseCase>() with singleton { MailService(instance()) }
+        bind<SecurityUseCase>() with singleton { SecurityService(instance()) }
     }
 }

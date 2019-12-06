@@ -8,4 +8,6 @@ interface ReportPersistenceInterface {
     fun getAll(): List<Report>
 
     fun remove(report: Report)
+
+    fun encrypt()
 }

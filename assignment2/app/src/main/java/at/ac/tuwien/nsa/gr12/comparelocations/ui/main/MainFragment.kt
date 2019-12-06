@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.SecurityUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -29,6 +30,7 @@ class MainFragment : Fragment(), KodeinAware {
 
     private val reportUseCase by instance<ReportUseCase>()
     private val mailUseCase by instance<MailUseCase>()
+    private val securityUseCase by instance<SecurityUseCase>()
 
     companion object {
         fun newInstance() = MainFragment()
@@ -63,6 +65,7 @@ class MainFragment : Fragment(), KodeinAware {
 //                    startActivity(intent)
 
 //                    reportUseCase.remove(report)
+                    securityUseCase.encryptDatabase()
 
                     val reports = reportUseCase.getAll()
                     reports.forEach {
