@@ -19,17 +19,18 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
 
-class DetailsFragment(val report: Report, val viewModel: ReportListViewModel) : Fragment(), KodeinAware {
+class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
 
     private val mailUseCase by instance<MailUseCase>()
     private val reportUseCase by instance<ReportUseCase>()
 
+    private var viewModel: DetailsViewModel? = null
+
     companion object {
         fun newInstance(
-            report: Report,
-            viewModel: ReportListViewModel
-        ) = DetailsFragment(report, viewModel)
+            report: Report
+        ) = DetailsFragment(report)
     }
 
     override fun onCreateView(
@@ -37,6 +38,8 @@ class DetailsFragment(val report: Report, val viewModel: ReportListViewModel) : 
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.details_fragment, container, false)
+
+        viewModel = ViewModelProviders.of(this, DetailsViewModelFactory(context!!)).get(DetailsViewModel::class.java)
 
         val buttonMail = view.findViewById<Button>(R.id.buttonMail)
         buttonMail.setOnClickListener {
@@ -50,13 +53,10 @@ class DetailsFragment(val report: Report, val viewModel: ReportListViewModel) : 
         val buttonDelete = view.findViewById<Button>(R.id.buttonDelete)
         buttonDelete.setOnClickListener {
             GlobalScope.launch {
-                viewModel.remove(report)
-                viewModel.getAllData()
+                viewModel!!.remove(report)
                 activity?.supportFragmentManager?.popBackStack()
             }
-
         }
-
         return view
     }
 

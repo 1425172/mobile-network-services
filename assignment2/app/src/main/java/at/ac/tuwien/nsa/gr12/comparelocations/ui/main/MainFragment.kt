@@ -103,7 +103,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
             TransitionInflater.from(context)
                 .inflateTransition(R.transition.fade_transition)
 
-        val detailsFragment: DetailsFragment = DetailsFragment.newInstance(item!!, viewModel!!)
+        val detailsFragment: DetailsFragment = DetailsFragment.newInstance(item!!)
 
         detailsFragment.enterTransition = explodeTransition
         detailsFragment.exitTransition = fadeTransition
