@@ -27,10 +27,6 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
         }
     }
 
-    fun getAllData(): MutableLiveData<List<Report>>? {
-        return allReports
-    }
-
     /**
      * Issues a request for a new report and adds it to "allReports"
      * @return not the new report! (Can be changed of course)
@@ -45,7 +41,7 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
     }
 
     fun remove(report: Report) {
-        (allReports.value as MutableList<Report>).remove(report)
+        allReports.value=((allReports.value as MutableList<Report>).also {it.remove(report)})
         GlobalScope.launch {
             reportUseCase.remove(report)
         }
