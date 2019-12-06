@@ -50,7 +50,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
 
         val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
 
-        viewModel!!.allReports?.observe(this, Observer {
+        viewModel?.allReports?.observe(this, Observer {
             reportList.adapter = ReportRecyclerViewAdapter(it,this)
         })
 

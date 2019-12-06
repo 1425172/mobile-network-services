@@ -19,11 +19,11 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
 
     private val reportUseCase by instance<ReportUseCase>()
 
-    var allReports: MutableLiveData<List<Report>> = MutableLiveData()
+    val allReports: MutableLiveData<List<Report>> = MutableLiveData(mutableListOf())
 
     init {
         GlobalScope.launch {
-            allReports = MutableLiveData(reportUseCase.getAll() as MutableList<Report>)
+            allReports.postValue((reportUseCase.getAll() as MutableList<Report>))
         }
     }
 
