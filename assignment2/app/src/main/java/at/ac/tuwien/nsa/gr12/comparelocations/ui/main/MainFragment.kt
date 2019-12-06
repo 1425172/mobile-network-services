@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import at.ac.tuwien.nsa.gr12.comparelocations.MainActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -70,18 +71,18 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    //                    val report = reportUseCase.getNew()
-//                    Log.i("##################### Report", report.toString())
+                    val report = viewModel.getNew()
+                    Log.i("############# Report", report.toString())
 //                    Log.i("##################### distance", report.distance().toString())
 //                    mailUseCase.send(report)
 //                    reportUseCase.remove(report)
-                    val reports = reportUseCase.getAll()
-                    val intent = mailUseCase.send(reports[0])
-                    startActivity(intent)
-
-                    reports.forEach {
-                        Log.i("################ Reports", it.toString())
-                    }
+//                    val reports = viewModel.getAllData()
+//                    val intent = mailUseCase.send(reports[0])
+//                    startActivity(intent)
+//                    Log.i("AAAAAA", reports.value?.size.toString())
+//                    reports.value?.forEach {
+//                        Log.i("############### Reports", it.toString())
+//                    }
 
                     //val allData: LiveData<List<Report>> = viewModel?.getAllData()
 //
@@ -92,9 +93,8 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
                 requestLocationPermission(this.activity)
             }
         }
-
-        // val recyclerView = view.findViewById<RecyclerView>(R.id.reportList)
-        // recyclerView?.adapter = ReportRecyclerViewAdapter(DummyContent.ITEMS, this)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.reportList)
+         recyclerView?.adapter = ReportRecyclerViewAdapter(DummyContent.ITEMS, this)
 
         return view
     }
@@ -103,6 +103,11 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, MainViewModelFactory(context!!))
             .get(MainViewModel::class.java)
+// Probably how this should work, but right no it does not
+//        viewModel.getAllData().observe(this, Observer { item ->
+//            Log.i("New report list size: ", item.size.toString())
+//            item.forEach { Log.i("Observed Reports", it.toString()) }
+//        })
     }
 
     private fun requestLocationPermission(activity: Activity?) {
