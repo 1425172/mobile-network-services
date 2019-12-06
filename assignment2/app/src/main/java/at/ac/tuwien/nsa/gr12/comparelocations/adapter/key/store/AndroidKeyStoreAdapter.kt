@@ -59,7 +59,6 @@ class AndroidKeyStoreAdapter : KeyStoreInterface {
         val plain = obfuscated
             .map { it.toChar() }
             .joinToString("")
-        Log.e("###################", plain)
         return plain
     }
 }
