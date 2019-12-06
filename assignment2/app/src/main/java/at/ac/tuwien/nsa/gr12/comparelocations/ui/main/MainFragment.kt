@@ -59,10 +59,10 @@ class MainFragment : Fragment(), KodeinAware {
                     Log.i("##################### Report", report.toString())
                     Log.i("##################### distance", report.distance().toString())
 
-                    val intent = mailUseCase.send(report)
-                    startActivity(intent)
+//                    val intent = mailUseCase.send(report)
+//                    startActivity(intent)
 
-                    reportUseCase.remove(report)
+//                    reportUseCase.remove(report)
 
                     val reports = reportUseCase.getAll()
                     reports.forEach {

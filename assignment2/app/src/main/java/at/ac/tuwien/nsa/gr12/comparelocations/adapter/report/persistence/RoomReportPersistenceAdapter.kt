@@ -1,18 +1,24 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence
 
 import android.content.Context
+import android.text.SpannableStringBuilder
 import androidx.room.Room
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence.mapper.ReportMapper
+import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.KeyStoreInterface
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.ReportPersistenceInterface
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
+import com.commonsware.cwac.saferoom.SafeHelperFactory
 import org.mapstruct.factory.Mappers
 
-class RoomReportPersistenceAdapater(context: Context) : ReportPersistenceInterface {
+class RoomReportPersistenceAdapter(context: Context, keyStore: KeyStoreInterface) : ReportPersistenceInterface {
+
+    private val factory: SafeHelperFactory = SafeHelperFactory.fromUser(SpannableStringBuilder(keyStore.databaseKey()))
 
     private val reportDao = Room.databaseBuilder(
         context,
-        ReportDatabase::class.java, "reports"
-    ).build()
+        ReportDatabase::class.java, "reports_encrypted"
+    ).openHelperFactory(factory)
+        .build()
         .reportDao()
 
     private val mapper = Mappers.getMapper(ReportMapper::class.java)
