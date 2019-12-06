@@ -2,30 +2,26 @@ package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.Transition
+import android.transition.TransitionInflater
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import at.ac.tuwien.nsa.gr12.comparelocations.MainActivity
 import androidx.recyclerview.widget.RecyclerView
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
-import at.ac.tuwien.nsa.gr12.comparelocations.dummy.DummyContent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -34,30 +30,34 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
 class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
-
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
-        fragmentManager?.beginTransaction()?.replace(R.id.container, DetailsFragment.newInstance())
-            ?.addToBackStack("hoehoe")
-            ?.commit()
-    }
-
     override val kodein: Kodein by closestKodein()
 
     private val reportUseCase by instance<ReportUseCase>()
     private val mailUseCase by instance<MailUseCase>()
 
+    private var viewModel: ReportListViewModel? = null
+
+    var fadeTransition: Transition = Fade()
+
     companion object {
         fun newInstance() = MainFragment()
     }
-
-    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.main_fragment, container, false);
+        val view = inflater.inflate(R.layout.main_fragment, container, false)
+
+        viewModel = ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)
+
+        val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
+
+        viewModel!!.getAllData()?.observe(this, Observer {
+            reportList.adapter = ReportRecyclerViewAdapter(it,this)
+        })
+
 
         val button = view.findViewById<Button>(R.id.button)
         button.setOnClickListener {
@@ -71,7 +71,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    val report = viewModel.getNew()
+                    val report = viewModel!!.getNew()
                     Log.i("############# Report", report.toString())
 //                    Log.i("##################### distance", report.distance().toString())
 //                    mailUseCase.send(report)
@@ -79,35 +79,16 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
 //                    val reports = viewModel.getAllData()
 //                    val intent = mailUseCase.send(reports[0])
 //                    startActivity(intent)
-//                    Log.i("AAAAAA", reports.value?.size.toString())
 //                    reports.value?.forEach {
 //                        Log.i("############### Reports", it.toString())
 //                    }
-
-                    //val allData: LiveData<List<Report>> = viewModel?.getAllData()
-//
-                    //Log.i(allData.value?.get(0)?.date.toString(), "hasdflkjsadlfjsalfdkj")
                 }
 
             } else {
                 requestLocationPermission(this.activity)
             }
         }
-        val recyclerView = view.findViewById<RecyclerView>(R.id.reportList)
-         recyclerView?.adapter = ReportRecyclerViewAdapter(DummyContent.ITEMS, this)
-
         return view
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, MainViewModelFactory(context!!))
-            .get(MainViewModel::class.java)
-// Probably how this should work, but right no it does not
-//        viewModel.getAllData().observe(this, Observer { item ->
-//            Log.i("New report list size: ", item.size.toString())
-//            item.forEach { Log.i("Observed Reports", it.toString()) }
-//        })
     }
 
     private fun requestLocationPermission(activity: Activity?) {
@@ -119,5 +100,26 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
             ),
             12
         )
+    }
+
+    override fun onListFragmentInteraction(item: Report?) {
+        var explodeTransition: Transition =
+            TransitionInflater.from(context)
+                .inflateTransition(R.transition.explode_transition)
+
+        var fadeTransition: Transition =
+            TransitionInflater.from(context)
+                .inflateTransition(R.transition.fade_transition)
+
+        val detailsFragment: DetailsFragment = DetailsFragment.newInstance(item!!)
+
+        detailsFragment.enterTransition = explodeTransition
+        detailsFragment.exitTransition = fadeTransition
+
+        fragmentManager
+        ?.beginTransaction()
+        ?.replace(R.id.container, detailsFragment)
+        ?.addToBackStack("hoehoe")
+        ?.commit()
     }
 }

@@ -6,4 +6,10 @@ data class Location(
     var accuracy: Float? = null
 ) {
     constructor() : this(null, null, null)
+
+    override fun toString(): String {
+        return "Location(latitude=$latitude, longitude=$longitude, accuracy=$accuracy)"
+    }
+
+
 }

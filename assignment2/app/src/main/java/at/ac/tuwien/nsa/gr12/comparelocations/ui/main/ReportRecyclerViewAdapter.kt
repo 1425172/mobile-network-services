@@ -5,20 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import at.ac.tuwien.nsa.gr12.comparelocations.R
+import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 
 
 import at.ac.tuwien.nsa.gr12.comparelocations.ui.main.ReportFragment.OnListFragmentInteractionListener
-import at.ac.tuwien.nsa.gr12.comparelocations.dummy.DummyContent.DummyItem
 import kotlinx.android.synthetic.main.fragment_report.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Report] and makes a call to the
  * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
  */
 class ReportRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+    private val mValues: List<Report>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<ReportRecyclerViewAdapter.ViewHolder>() {
 
@@ -26,7 +26,7 @@ class ReportRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
+            val item = v.tag as Report
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -41,8 +41,8 @@ class ReportRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mIdView.text = "#" + item.id.toString() + " - " + item.date.toString()
+        holder.mContentView.text = item.mlsLocation.toString()
 
         with(holder.mView) {
             tag = item

@@ -8,4 +8,6 @@
     <string name="cellTowers">List of Celltowers</string>
     <string name="welcomeText">Welcome to the best location service available on the internet! Press the Button below to begin</string>
     <string name="reports">Generated Reports</string>
+    <string name="delete">Delete</string>
+    <string name="mail">Send Mail</string>
 </resources>

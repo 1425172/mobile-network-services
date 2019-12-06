@@ -27,4 +27,10 @@ data class Report(
 
         return gpsAndroidLocation.distanceTo(mlsAndroidLocation)
     }
+
+    override fun toString(): String {
+        return "Report(id=$id, date=$date, gpsLocation=$gpsLocation, accessPoints=$accessPoints, cellTowers=$cellTowers, mlsLocation=$mlsLocation)"
+    }
+
+
 }

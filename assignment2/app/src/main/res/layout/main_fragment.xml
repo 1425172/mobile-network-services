@@ -40,17 +40,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reportList"
-        android:name="at.ac.tuwien.nsa.gr12.comparelocations.ReportFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportsLabel"
-        tools:context=".ui.main.ReportFragment"
-        tools:listitem="@layout/fragment_report" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportsLabel">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reportList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.main.MainFragment"
+            tools:listitem="@layout/fragment_report" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
