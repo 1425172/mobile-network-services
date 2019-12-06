@@ -3,7 +3,6 @@ package at.ac.tuwien.nsa.gr12.comparelocations.adapter.key.store
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import android.util.Log
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.KeyStoreInterface
 import java.nio.charset.Charset
 import java.security.KeyStore
@@ -56,9 +55,8 @@ class AndroidKeyStoreAdapter : KeyStoreInterface {
 
     override fun mlsKey(): String {
         val obfuscated = arrayOf(0x74, 0x65, 0x73, 0x74)
-        val plain = obfuscated
+        return obfuscated
             .map { it.toChar() }
             .joinToString("")
-        return plain
     }
 }
