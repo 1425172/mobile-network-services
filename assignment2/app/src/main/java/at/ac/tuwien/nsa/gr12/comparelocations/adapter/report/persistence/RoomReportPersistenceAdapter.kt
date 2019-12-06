@@ -29,10 +29,7 @@ class RoomReportPersistenceAdapter(
     private val mapper = Mappers.getMapper(ReportMapper::class.java)
 
     init {
-        val sharedPreferences =
-            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
-        val enabled = sharedPreferences.getBoolean(encryptionEnabled, false)
-        if (enabled) {
+        if (isEncrypted()) {
             this.database = getEncryptedDatabase()
         } else {
             this.database = getPlainDatabase()
@@ -60,10 +57,7 @@ class RoomReportPersistenceAdapter(
     }
 
     override fun encrypt() {
-        val sharedPreferences =
-            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
-        val enabled = sharedPreferences.getBoolean(encryptionEnabled, false)
-        if (enabled) {
+        if (isEncrypted()) {
             return
         }
         this.database.close()
@@ -75,9 +69,17 @@ class RoomReportPersistenceAdapter(
         this.database = getEncryptedDatabase()
         this.reportDao = this.database.reportDao()
 
+        val sharedPreferences =
+            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean(encryptionEnabled, true)
         editor.apply()
+    }
+
+    override fun isEncrypted(): Boolean {
+        val sharedPreferences =
+            this.context.getSharedPreferences(preferencesFileKey, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(encryptionEnabled, false)
     }
 
     private fun getPlainDatabase(): ReportDatabase {

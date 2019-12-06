@@ -10,4 +10,6 @@ interface ReportPersistenceInterface {
     fun remove(report: Report)
 
     fun encrypt()
+
+    fun isEncrypted(): Boolean
 }

@@ -6,4 +6,8 @@ class SecurityService(private val persistence: ReportPersistenceInterface) : Sec
     override fun encryptDatabase() {
         this.persistence.encrypt()
     }
+
+    override fun databaseIsEncrypted(): Boolean {
+        return this.persistence.isEncrypted()
+    }
 }
