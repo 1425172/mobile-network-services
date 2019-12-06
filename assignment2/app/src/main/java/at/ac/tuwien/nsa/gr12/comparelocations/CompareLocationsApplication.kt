@@ -1,13 +1,15 @@
 package at.ac.tuwien.nsa.gr12.comparelocations
 
 import android.app.Application
-import at.ac.tuwien.nsa.gr12.comparelocations.adapter.cell.tower.CellTowersAdapter
+import at.ac.tuwien.nsa.gr12.comparelocations.adapter.cell.towers.CellTowersAdapter
+import at.ac.tuwien.nsa.gr12.comparelocations.adapter.cell.towers.cache.CellTowersCacheAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.gps.location.service.GPSAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.key.store.AndroidKeyStoreAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.mail.MailAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.mozilla.location.service.MozillaLocationServiceAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.report.persistence.RoomReportPersistenceAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.adapter.wifi.WifiAdapter
+import at.ac.tuwien.nsa.gr12.comparelocations.adapter.wifi.cache.WifiCacheAdapter
 import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.*
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.*
 import org.kodein.di.Kodein
@@ -30,11 +32,13 @@ class CompareLocationsApplication : Application(), KodeinAware {
             )
         }
         bind<WifiInterface>() with singleton { WifiAdapter(applicationContext) }
+        bind<WifiCacheInterface>() with singleton { WifiCacheAdapter() }
+        bind<CellTowersCacheInterface>() with singleton { CellTowersCacheAdapter() }
 
         bind<ReportUseCase>() with singleton {
-            ReportService(instance(), instance(), instance(), instance(), instance())
+            ReportUseCaseImpl(instance(), instance(), instance(), instance(), instance())
         }
-        bind<MailUseCase>() with singleton { MailService(instance()) }
-        bind<SecurityUseCase>() with singleton { SecurityService(instance()) }
+        bind<MailUseCase>() with singleton { MailUseCaseImpl(instance()) }
+        bind<SecurityUseCase>() with singleton { SecurityUseCaseImpl(instance()) }
     }
 }

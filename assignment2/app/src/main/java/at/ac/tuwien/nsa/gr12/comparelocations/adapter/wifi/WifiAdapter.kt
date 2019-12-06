@@ -34,7 +34,7 @@ class WifiAdapter(private val context: Context) : WifiInterface {
         if (!success) {
             scanFailure()
             val failureDef: CompletableDeferred<List<AccessPoint>> = CompletableDeferred()
-            failureDef.completeExceptionally(RuntimeException("Could initialize wifi scan"))
+            failureDef.completeExceptionally(RuntimeException("Could not initialize wifi scan"))
             return failureDef
         }
 

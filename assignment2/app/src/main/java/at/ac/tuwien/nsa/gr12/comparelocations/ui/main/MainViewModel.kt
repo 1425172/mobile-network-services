@@ -31,7 +31,7 @@ class MainViewModel : ViewModel() {
     }
 
     suspend fun getNew() {
-        reportUseCase.getNew()
+//        reportUseCase.getNew()
     }
 
     suspend fun remove(report: Report) {

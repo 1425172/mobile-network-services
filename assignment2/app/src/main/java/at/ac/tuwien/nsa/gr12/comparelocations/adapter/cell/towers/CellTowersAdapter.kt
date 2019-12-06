@@ -1,4 +1,4 @@
-package at.ac.tuwien.nsa.gr12.comparelocations.adapter.cell.tower
+package at.ac.tuwien.nsa.gr12.comparelocations.adapter.cell.towers
 
 import android.annotation.SuppressLint
 import android.content.Context

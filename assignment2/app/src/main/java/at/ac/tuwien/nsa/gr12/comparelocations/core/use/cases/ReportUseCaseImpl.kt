@@ -4,21 +4,19 @@ import at.ac.tuwien.nsa.gr12.comparelocations.core.interfaces.*
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import java.util.*
 
-class ReportService(
-    private val cellTowersInterface: CellTowersInterface,
+class ReportUseCaseImpl(
+    private val cellTowersCache: CellTowersCacheInterface,
     private val gpsInterface: GPSInterface,
     private val locationServiceInterface: LocationServiceInterface,
     private val reportPersistenceInterface: ReportPersistenceInterface,
-    private val wifiInterface: WifiInterface
+    private val wifiCache: WifiCacheInterface
 ) : ReportUseCase {
 
     override suspend fun getNew(): Report {
-        val cellTowersAsync = cellTowersInterface.getAsync()
-        val accessPointsAsync = wifiInterface.getAsync()
         val gpsLocationAsync = gpsInterface.getAsync()
 
-        val accessPoints = accessPointsAsync.await()
-        val cellTowers = cellTowersAsync.await()
+        val accessPoints = wifiCache.get()
+        val cellTowers = cellTowersCache.get()
         val mlsLocation = locationServiceInterface.get(accessPoints, cellTowers)
 
         val gpsLocation = gpsLocationAsync.await()

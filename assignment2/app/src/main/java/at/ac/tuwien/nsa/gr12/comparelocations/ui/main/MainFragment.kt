@@ -57,6 +57,7 @@ class MainFragment : Fragment(), KodeinAware {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
+                    securityUseCase.encryptDatabase()
                     val report = reportUseCase.getNew()
                     Log.i("##################### Report", report.toString())
                     Log.i("##################### distance", report.distance().toString())
@@ -65,7 +66,6 @@ class MainFragment : Fragment(), KodeinAware {
 //                    startActivity(intent)
 
 //                    reportUseCase.remove(report)
-                    securityUseCase.encryptDatabase()
 
                     val reports = reportUseCase.getAll()
                     reports.forEach {
