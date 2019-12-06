@@ -1,12 +1,12 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -19,20 +19,15 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
 
     private val reportUseCase by instance<ReportUseCase>()
 
-    private var allReports: MutableLiveData<List<Report>> = MutableLiveData()
+    var allReports: MutableLiveData<List<Report>> = MutableLiveData()
 
     init {
         GlobalScope.launch {
-            allReports = MutableLiveData(reportUseCase.getAll()as MutableList<Report>)
+            allReports = MutableLiveData(reportUseCase.getAll() as MutableList<Report>)
         }
     }
 
-
-
     fun getAllData(): MutableLiveData<List<Report>>? {
-        GlobalScope.launch {
-            allReports = MutableLiveData(reportUseCase.getAll()as MutableList<Report>)
-        }
         return allReports
     }
 
@@ -49,10 +44,6 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
         allReports.postValue((allReports.value as MutableList<Report>).also { it.add(reportUseCase.getNew()) })
     }
 
-    /**
-     * NOT TESTED
-     * Should remove the specified report
-     */
     fun remove(report: Report) {
         (allReports.value as MutableList<Report>).remove(report)
         GlobalScope.launch {

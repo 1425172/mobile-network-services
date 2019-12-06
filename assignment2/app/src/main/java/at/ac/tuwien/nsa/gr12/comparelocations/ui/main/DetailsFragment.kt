@@ -1,16 +1,12 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
-import android.Manifest
-import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.content.ContextCompat
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
@@ -23,17 +19,18 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
 
-class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
+class DetailsFragment(val report: Report, val viewModel: ReportListViewModel) : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
 
     private val mailUseCase by instance<MailUseCase>()
     private val reportUseCase by instance<ReportUseCase>()
 
     companion object {
-        fun newInstance(report: Report) = DetailsFragment(report)
+        fun newInstance(
+            report: Report,
+            viewModel: ReportListViewModel
+        ) = DetailsFragment(report, viewModel)
     }
-
-    private lateinit var viewModel: DetailsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +50,8 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
         val buttonDelete = view.findViewById<Button>(R.id.buttonDelete)
         buttonDelete.setOnClickListener {
             GlobalScope.launch {
-                reportUseCase.remove(report)
+                viewModel.remove(report)
+                viewModel.getAllData()
                 activity?.supportFragmentManager?.popBackStack()
             }
 
@@ -62,10 +60,5 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

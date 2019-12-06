@@ -7,33 +7,29 @@ import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import at.ac.tuwien.nsa.gr12.comparelocations.R
+
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
-import org.kodein.di.generic.instance
+import at.ac.tuwien.nsa.gr12.comparelocations.R
+
 
 class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
     override val kodein: Kodein by closestKodein()
-
-    private val reportUseCase by instance<ReportUseCase>()
-    private val mailUseCase by instance<MailUseCase>()
 
     private var viewModel: ReportListViewModel? = null
 
@@ -54,10 +50,9 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
 
         val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
 
-        viewModel!!.getAllData()?.observe(this, Observer {
+        viewModel!!.allReports?.observe(this, Observer {
             reportList.adapter = ReportRecyclerViewAdapter(it,this)
         })
-
 
         val button = view.findViewById<Button>(R.id.button)
         button.setOnClickListener {
@@ -71,17 +66,14 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    val report = viewModel!!.getNew()
-                    Log.i("############# Report", report.toString())
-//                    Log.i("##################### distance", report.distance().toString())
-//                    mailUseCase.send(report)
-//                    reportUseCase.remove(report)
-//                    val reports = viewModel.getAllData()
-//                    val intent = mailUseCase.send(reports[0])
-//                    startActivity(intent)
-//                    reports.value?.forEach {
-//                        Log.i("############### Reports", it.toString())
-//                    }
+                    try {
+                        val report = viewModel!!.getNew()
+                    }
+                    catch (httpException: Exception){
+                        activity?.runOnUiThread {
+                            Toast.makeText(activity, "MLS Backend not reachable: "+httpException.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
 
             } else {
@@ -111,7 +103,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
             TransitionInflater.from(context)
                 .inflateTransition(R.transition.fade_transition)
 
-        val detailsFragment: DetailsFragment = DetailsFragment.newInstance(item!!)
+        val detailsFragment: DetailsFragment = DetailsFragment.newInstance(item!!, viewModel!!)
 
         detailsFragment.enterTransition = explodeTransition
         detailsFragment.exitTransition = fadeTransition
