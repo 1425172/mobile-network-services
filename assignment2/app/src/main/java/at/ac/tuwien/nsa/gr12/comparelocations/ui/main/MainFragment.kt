@@ -2,9 +2,7 @@ package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +13,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import at.ac.tuwien.nsa.gr12.comparelocations.MainActivity
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
@@ -58,15 +55,16 @@ class MainFragment : Fragment(), KodeinAware {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    //                    val report = reportUseCase.getNew()
-//                    Log.i("##################### Report", report.toString())
-//                    Log.i("##################### distance", report.distance().toString())
-//                    mailUseCase.send(report)
-//                    reportUseCase.remove(report)
-                    val reports = reportUseCase.getAll()
-                    val intent = mailUseCase.send(reports[0])
+                    val report = reportUseCase.getNew()
+                    Log.i("##################### Report", report.toString())
+                    Log.i("##################### distance", report.distance().toString())
+
+                    val intent = mailUseCase.send(report)
                     startActivity(intent)
 
+                    reportUseCase.remove(report)
+
+                    val reports = reportUseCase.getAll()
                     reports.forEach {
                         Log.i("################ Reports", it.toString())
                     }
@@ -83,6 +81,8 @@ class MainFragment : Fragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.reportUseCase = reportUseCase
+        viewModel.initialize()
         // TODO: Use the ViewModel
     }
 
