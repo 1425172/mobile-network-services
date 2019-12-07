@@ -21,9 +21,6 @@ import org.kodein.di.generic.instance
 
 class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
-
-    private val mailUseCase by instance<MailUseCase>()
-
     private var viewModel: ReportListViewModel? = null
 
     companion object {
@@ -39,10 +36,11 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
         val view = inflater.inflate(R.layout.details_fragment, container, false)
         val buttonMail = view.findViewById<Button>(R.id.buttonMail)
         buttonMail.setOnClickListener {
-                GlobalScope.launch {
-                    val intent = mailUseCase.send(report)
-                    startActivity(intent)
-                }
+            GlobalScope.launch {
+                val intent = viewModel?.send(report)
+                startActivity(intent)
+            }
+
             }
         val buttonDelete = view.findViewById<Button>(R.id.buttonDelete)
         buttonDelete.setOnClickListener {

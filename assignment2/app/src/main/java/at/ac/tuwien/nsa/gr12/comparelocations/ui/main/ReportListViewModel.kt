@@ -1,10 +1,12 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -19,6 +21,8 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
     override val kodein: Kodein by closestKodein(app)
 
     private val reportUseCase by instance<ReportUseCase>()
+    private val mailUseCase by instance<MailUseCase>()
+
 
     private val allReports: MutableLiveData<List<Report>> = MutableLiveData(mutableListOf())
 
@@ -49,6 +53,10 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
         GlobalScope.launch {
             reportUseCase.remove(report)
         }
+    }
+
+    suspend fun send(report: Report): Intent? {
+        return mailUseCase.send(report)
     }
 
 }

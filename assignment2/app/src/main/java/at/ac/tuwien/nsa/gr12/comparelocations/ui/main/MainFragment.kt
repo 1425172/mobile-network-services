@@ -30,9 +30,7 @@ import at.ac.tuwien.nsa.gr12.comparelocations.R
 
 class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
     override val kodein: Kodein by closestKodein()
-
     private var viewModel: ReportListViewModel? = null
-
     var fadeTransition: Transition = Fade()
 
     companion object {
@@ -97,11 +95,11 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
     }
 
     override fun onListFragmentInteraction(item: Report?) {
-        var explodeTransition: Transition =
+        val explodeTransition: Transition =
             TransitionInflater.from(context)
                 .inflateTransition(R.transition.explode_transition)
 
-        var fadeTransition: Transition =
+        val fadeTransition: Transition =
             TransitionInflater.from(context)
                 .inflateTransition(R.transition.fade_transition)
 
