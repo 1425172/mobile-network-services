@@ -1,6 +1,7 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
@@ -19,7 +20,7 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
 
     private val reportUseCase by instance<ReportUseCase>()
 
-    val allReports: MutableLiveData<List<Report>> = MutableLiveData(mutableListOf())
+    private val allReports: MutableLiveData<List<Report>> = MutableLiveData(mutableListOf())
 
     init {
         GlobalScope.launch {
@@ -27,6 +28,9 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
         }
     }
 
+    fun getAllReports():LiveData<List<Report>>{
+        return allReports
+    }
     /**
      * Issues a request for a new report and adds it to "allReports"
      * @return not the new report! (Can be changed of course)
@@ -41,7 +45,7 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
     }
 
     fun remove(report: Report) {
-        allReports.value=((allReports.value as MutableList<Report>).also {it.remove(report)})
+        allReports.value=(allReports.value as MutableList<Report>).also {it.remove(report)}
         GlobalScope.launch {
             reportUseCase.remove(report)
         }

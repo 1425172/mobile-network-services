@@ -37,24 +37,24 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.details_fragment, container, false)
-
-        viewModel = ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)
-
         val buttonMail = view.findViewById<Button>(R.id.buttonMail)
         buttonMail.setOnClickListener {
                 GlobalScope.launch {
                     val intent = mailUseCase.send(report)
                     startActivity(intent)
                 }
-
             }
-
         val buttonDelete = view.findViewById<Button>(R.id.buttonDelete)
         buttonDelete.setOnClickListener {
             viewModel!!.remove(report)
             activity?.supportFragmentManager?.popBackStack()
         }
         return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = activity?.run {  ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)}
     }
 
 

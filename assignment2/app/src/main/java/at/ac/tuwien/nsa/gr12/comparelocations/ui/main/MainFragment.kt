@@ -39,6 +39,11 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
         fun newInstance() = MainFragment()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = activity?.run{ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)}
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,11 +51,8 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
 
-        viewModel = ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)
-
         val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
-
-        viewModel?.allReports?.observe(this, Observer {
+        viewModel?.getAllReports()?.observe(this, Observer {
             reportList.adapter = ReportRecyclerViewAdapter(it,this)
         })
 
@@ -67,7 +69,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
             ) {
                 GlobalScope.launch {
                     try {
-                        val report = viewModel!!.getNew()
+                        viewModel!!.getNew()
                     }
                     catch (httpException: Exception){
                         activity?.runOnUiThread {
