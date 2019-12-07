@@ -6,22 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import at.ac.tuwien.nsa.gr12.comparelocations.R
+import androidx.recyclerview.widget.RecyclerView
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.databinding.DetailsFragmentBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
-import org.kodein.di.generic.instance
 
 
 class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private var viewModel: ReportListViewModel? = null
+    private lateinit var accessPointRecyclerView: RecyclerView
+    private lateinit var accessPointViewAdapter: RecyclerView.Adapter<*>
+
+    private lateinit var cellTowerRecyclerView: RecyclerView
+    private lateinit var cellTowerViewAdapter: RecyclerView.Adapter<*>
 
     companion object {
         fun newInstance(
@@ -33,21 +35,26 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.details_fragment, container, false)
-        val buttonMail = view.findViewById<Button>(R.id.buttonMail)
-        buttonMail.setOnClickListener {
+        val binding: DetailsFragmentBinding = DetailsFragmentBinding.inflate(layoutInflater,container,false)
+        binding.report = report
+        accessPointViewAdapter = AccessPointAdapter(report.accessPoints)
+        accessPointRecyclerView = binding.accessPointsList.apply{adapter=AccessPointAdapter(report.accessPoints)}
+
+        cellTowerViewAdapter = CellTowerAdapter(report.cellTowers)
+        cellTowerRecyclerView = binding.cellTowersList.apply{adapter=CellTowerAdapter(report.cellTowers)}
+
+        binding.buttonMail.setOnClickListener {
             GlobalScope.launch {
                 val intent = viewModel?.send(report)
                 startActivity(intent)
             }
 
             }
-        val buttonDelete = view.findViewById<Button>(R.id.buttonDelete)
-        buttonDelete.setOnClickListener {
+        binding.buttonDelete.setOnClickListener {
             viewModel!!.remove(report)
             activity?.supportFragmentManager?.popBackStack()
         }
-        return view
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

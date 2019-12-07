@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
+    xmlns:tools="http://schemas.android.com/tools">
+<data>
+    <variable
+        name="report"
+        type="at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report"/>
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/detailsParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <TextView
         android:id="@+id/detailsHeader"
         android:layout_width="wrap_content"
@@ -27,6 +31,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:textAlignment="center"
         android:textStyle="bold"
+        android:text="@{String.valueOf(report.id)}"
         app:layout_constraintStart_toEndOf="@+id/detailsHeader"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="[1]" />
@@ -47,7 +52,6 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/date"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:text="@{report.date.toLocaleString()}"
             app:layout_constraintStart_toEndOf="@+id/dateLabel"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="31.12.2019 12:34.56" />
@@ -77,7 +82,6 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/gps"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,6 +92,7 @@
             android:layout_margin="@dimen/text_margin"
             app:layout_constraintStart_toEndOf="@+id/gpsLabel"
             app:layout_constraintTop_toTopOf="parent"
+            android:text='@{report.gpsLocation.longitude.toString()+"; "+report.gpsLocation.latitude.toString()}'
             tools:text="23.15684; 24.2236" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,7 +112,6 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/mlsLocation"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,7 +120,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:text='@{report.mlsLocation.longitude.toString()+"; "+report.mlsLocation.latitude.toString()}'
             app:layout_constraintStart_toEndOf="@+id/mlsLocationLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="23.1568; 24.216 - 25%" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutMlsGpsDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMls">
+
+
+        <TextView
+            android:id="@+id/mlsGpsDistanceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/mlsGpsDistance"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mlsGpsDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@{report.distance()}"
+            app:layout_constraintStart_toEndOf="@+id/mlsGpsDistanceLabel"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="23.1568; 24.216 - 25%" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -127,7 +162,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMls">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutMlsGpsDistance">
 
 
         <TextView
@@ -137,18 +172,17 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/accessPoints"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <view
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/accessPointsList"
-            class="androidx.appcompat.app.AlertController$RecycleListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/accessPointsLabel"/>
+            app:layout_constraintTop_toBottomOf="@+id/accessPointsLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,18 +201,18 @@
             android:layout_margin="@dimen/text_margin"
             android:text="@string/cellTowers"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+<!--        class="androidx.appcompat.app.AlertController$RecycleListView"-->
 
-        <view
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cellTowersList"
-            class="androidx.appcompat.app.AlertController$RecycleListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cellTowersLabel"/>
+            app:layout_constraintTop_toBottomOf="@+id/cellTowersLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,22 +221,25 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutCellTowers">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayoutAccessPoints">
 
-        <Button
-            android:id="@+id/buttonMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/buttonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -12,9 +12,9 @@ data class Report(
 ) {
     constructor() : this(null, null, null, mutableListOf(), mutableListOf(), null)
 
-    fun distance(): Float {
+    fun distance(): String {
         if (gpsLocation == null || mlsLocation == null) {
-            return 0f
+            return "0"
         }
 
         val gpsAndroidLocation = android.location.Location("")
@@ -25,12 +25,11 @@ data class Report(
         mlsAndroidLocation.latitude = mlsLocation!!.latitude!!
         mlsAndroidLocation.longitude = mlsLocation!!.longitude!!
 
-        return gpsAndroidLocation.distanceTo(mlsAndroidLocation)
+        return gpsAndroidLocation.distanceTo(mlsAndroidLocation).toString()
     }
 
     override fun toString(): String {
         return "Report(id=$id, date=$date, gpsLocation=$gpsLocation, accessPoints=$accessPoints, cellTowers=$cellTowers, mlsLocation=$mlsLocation)"
     }
-
 
 }
