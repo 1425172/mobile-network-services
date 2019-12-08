@@ -13,7 +13,7 @@ import at.ac.tuwien.nsa.gr12.comparelocations.core.service.WifiService
 import at.ac.tuwien.nsa.gr12.comparelocations.ui.main.MainFragment
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private val REQUEST_LOCATION = 12
 

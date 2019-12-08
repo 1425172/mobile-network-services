@@ -23,7 +23,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "at.ac.tuwien.nsa.gr12.comparelocations"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,9 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    dataBinding{
+        enabled true
     }
 }
 
@@ -64,6 +67,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
     implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     kapt 'org.mapstruct:mapstruct-processor:1.3.1.Final'
     kaptAndroidTest 'org.mapstruct:mapstruct-processor:1.3.1.Final'
 

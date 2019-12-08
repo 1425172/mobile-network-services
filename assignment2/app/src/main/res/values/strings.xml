@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Compare Locations</string>
+    <string name="generateReport">Generate Report now</string>
+    <string name="date">Date:</string>
+    <string name="gps">GPS location:</string>
+    <string name="mlsLocation">MLS-Location:</string>
+    <string name="accessPoints">List of Accesspoints:</string>
+    <string name="cellTowers">List of Celltowers:</string>
+    <string name="welcomeText">Welcome to the best location service available on the internet! Press the Button below to begin</string>
+    <string name="reports">Generated Reports</string>
+    <string name="delete">Delete</string>
+    <string name="mail">Send Mail</string>
+    <string name="mlsGpsDistance">Distance:</string>
+    <string name="cellId">\"Id:\"</string>
+    <string name="mac">MAC:</string>
 </resources>
