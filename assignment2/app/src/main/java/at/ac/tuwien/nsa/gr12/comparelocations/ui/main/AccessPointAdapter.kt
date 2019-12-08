@@ -24,7 +24,7 @@ class AccessPointAdapter(private val cellTowers: List<AccessPoint>) : RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //set values
-        holder.accessPointInfo.text =  R.string.mac.toString() +" "+ cellTowers[position].macAddress.toString()
+        holder.accessPointInfo.text = holder.itemView.context.getString(R.string.mac) +" "+ cellTowers[position].macAddress.toString()
     }
 
     override fun getItemCount(): Int {

@@ -1,5 +1,6 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.ui.main
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +19,13 @@ class CellTowerAdapter(private val cellTowers: List<CellTower>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // create view holder to hold reference
+
         return ViewHolder( LayoutInflater.from(parent.context).inflate(R.layout.list_entry, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //set values
-        holder.cellTowerInfo.text =  R.string.cellId.toString()+" " +cellTowers[position].cellId.toString()
+        holder.cellTowerInfo.text =  holder.itemView.context.getString(R.string.cellId)+ " " +cellTowers[position].cellId.toString()
     }
 
     override fun getItemCount(): Int {

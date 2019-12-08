@@ -17,6 +17,9 @@ repositories {
         url "https://s3.amazonaws.com/repo.commonsware.com"
     }
 }
+androidExtensions {
+    experimental = true
+}
 
 android {
     compileSdkVersion 29

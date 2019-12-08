@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="@{report.distance()}"
+            android:text="@{Double.toString(report.distance())}"
             app:layout_constraintStart_toEndOf="@+id/mlsGpsDistanceLabel"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="23.1568; 24.216 - 25%" />

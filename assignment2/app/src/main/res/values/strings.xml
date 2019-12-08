@@ -11,6 +11,6 @@
     <string name="delete">Delete</string>
     <string name="mail">Send Mail</string>
     <string name="mlsGpsDistance">Distance:</string>
-    <string name="cellId">\"Id:\"</string>
+    <string name="cellId">Id:</string>
     <string name="mac">MAC:</string>
 </resources>

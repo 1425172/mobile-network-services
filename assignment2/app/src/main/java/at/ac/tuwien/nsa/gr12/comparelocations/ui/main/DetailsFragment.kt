@@ -16,9 +16,10 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 
 
-class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
+class DetailsFragment : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private var viewModel: ReportListViewModel? = null
+    private lateinit var report:Report
     private lateinit var accessPointRecyclerView: RecyclerView
     private lateinit var accessPointViewAdapter: RecyclerView.Adapter<*>
 
@@ -26,9 +27,9 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
     private lateinit var cellTowerViewAdapter: RecyclerView.Adapter<*>
 
     companion object {
-        fun newInstance(
-            report: Report
-        ) = DetailsFragment(report)
+        fun newInstance(report: Report) = DetailsFragment().apply {
+            arguments = Bundle().apply { putParcelable("report",report) }
+        }
     }
 
     override fun onCreateView(
@@ -37,10 +38,8 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
     ): View? {
         val binding: DetailsFragmentBinding = DetailsFragmentBinding.inflate(layoutInflater,container,false)
         binding.report = report
-        accessPointViewAdapter = AccessPointAdapter(report.accessPoints)
         accessPointRecyclerView = binding.accessPointsList.apply{adapter=AccessPointAdapter(report.accessPoints)}
 
-        cellTowerViewAdapter = CellTowerAdapter(report.cellTowers)
         cellTowerRecyclerView = binding.cellTowersList.apply{adapter=CellTowerAdapter(report.cellTowers)}
 
         binding.buttonMail.setOnClickListener {
@@ -59,7 +58,13 @@ class DetailsFragment(val report: Report) : Fragment(), KodeinAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            report = arguments!!.getParcelable("report")!!
+        }
         viewModel = activity?.run {  ViewModelProviders.of(this, ReportListViewModelFactory(context!!)).get(ReportListViewModel::class.java)}
+        accessPointViewAdapter = AccessPointAdapter(report.accessPoints)
+        cellTowerViewAdapter = CellTowerAdapter(report.cellTowers)
+
     }
 
 

@@ -1,7 +1,10 @@
 package at.ac.tuwien.nsa.gr12.comparelocations.core.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class Report(
     var id: Long? = null,
     var date: Date? = null,
@@ -9,12 +12,12 @@ data class Report(
     var accessPoints: List<AccessPoint> = mutableListOf(),
     var cellTowers: List<CellTower> = mutableListOf(),
     var mlsLocation: Location? = null
-) {
+):Parcelable {
     constructor() : this(null, null, null, mutableListOf(), mutableListOf(), null)
 
-    fun distance(): String {
+    fun distance(): Double {
         if (gpsLocation == null || mlsLocation == null) {
-            return "0"
+            return 0.0
         }
 
         val gpsAndroidLocation = android.location.Location("")
@@ -25,7 +28,7 @@ data class Report(
         mlsAndroidLocation.latitude = mlsLocation!!.latitude!!
         mlsAndroidLocation.longitude = mlsLocation!!.longitude!!
 
-        return gpsAndroidLocation.distanceTo(mlsAndroidLocation).toString()
+        return gpsAndroidLocation.distanceTo(mlsAndroidLocation).toDouble()
     }
 
     override fun toString(): String {

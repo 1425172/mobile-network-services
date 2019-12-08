@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.R
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
-import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.SecurityUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,8 +33,6 @@ import org.kodein.di.generic.instance
 class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
     override val kodein: Kodein by closestKodein()
 
-    private val reportUseCase by instance<ReportUseCase>()
-    private val mailUseCase by instance<MailUseCase>()
     private val securityUseCase by instance<SecurityUseCase>()
     private var viewModel: ReportListViewModel? = null
     var fadeTransition: Transition = Fade()
