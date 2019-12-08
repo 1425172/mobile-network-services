@@ -13,4 +13,5 @@
     <string name="mlsGpsDistance">Distance:</string>
     <string name="cellId">Id:</string>
     <string name="mac">MAC:</string>
+    <string name="encryption">Encryption:</string>
 </resources>

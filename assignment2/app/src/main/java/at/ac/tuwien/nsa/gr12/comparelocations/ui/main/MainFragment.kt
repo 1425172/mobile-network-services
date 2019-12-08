@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.R
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.SecurityUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.databinding.MainFragmentBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -32,8 +33,6 @@ import org.kodein.di.generic.instance
 
 class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInteractionListener {
     override val kodein: Kodein by closestKodein()
-
-    private val securityUseCase by instance<SecurityUseCase>()
     private var viewModel: ReportListViewModel? = null
     var fadeTransition: Transition = Fade()
 
@@ -51,26 +50,35 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.main_fragment, container, false)
-
-        val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
+//        val view = inflater.inflate(R.layout.main_fragment, container, false)
+        val binding: MainFragmentBinding = MainFragmentBinding.inflate(layoutInflater,container,false)
+//        val reportList: RecyclerView = view!!.findViewById(R.id.reportList)
         viewModel?.getAllReports()?.observe(this, Observer {
-            reportList.adapter = ReportRecyclerViewAdapter(it,this)
+            binding.reportList.adapter = ReportRecyclerViewAdapter(it,this)
         })
+        binding.encryptionSwitch.isChecked = viewModel!!.isEncrypted()
+        if (binding.encryptionSwitch.isChecked) {
+            binding.encryptionSwitch.isClickable = false
+        } else {
+            binding.encryptionSwitch.isClickable = true
+            binding.encryptionSwitch.setOnClickListener {
+                viewModel!!.enableEncryption()
+                it.isClickable=false
+            }
+        }
 
-        val button = view.findViewById<Button>(R.id.button)
-        button.setOnClickListener {
+//        val button = view.findViewById<Button>(R.id.button)
+        binding.button.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
-                    view.context,
+                    binding.root.context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(
-                    view.context,
+                    binding.root.context,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 GlobalScope.launch {
-                    securityUseCase.encryptDatabase()
                     try {
                         viewModel!!.getNew()
                     }
@@ -85,7 +93,7 @@ class MainFragment : Fragment(), KodeinAware, ReportFragment.OnListFragmentInter
                 requestLocationPermission(this.activity)
             }
         }
-        return view
+        return binding.root
     }
 
     private fun requestLocationPermission(activity: Activity?) {

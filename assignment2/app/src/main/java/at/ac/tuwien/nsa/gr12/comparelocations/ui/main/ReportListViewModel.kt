@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import at.ac.tuwien.nsa.gr12.comparelocations.core.model.Report
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.MailUseCase
 import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.ReportUseCase
+import at.ac.tuwien.nsa.gr12.comparelocations.core.use.cases.SecurityUseCase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
 
     private val reportUseCase by instance<ReportUseCase>()
     private val mailUseCase by instance<MailUseCase>()
+    private val securityUseCase by instance<SecurityUseCase>()
 
 
     private val allReports: MutableLiveData<List<Report>> = MutableLiveData(mutableListOf())
@@ -30,6 +32,14 @@ class ReportListViewModel(app: Context) : KodeinAware, ViewModel() {
         GlobalScope.launch {
             allReports.postValue((reportUseCase.getAll() as MutableList<Report>))
         }
+    }
+
+    fun isEncrypted():Boolean{
+        return securityUseCase.databaseIsEncrypted()
+    }
+
+    fun enableEncryption(){
+        securityUseCase.encryptDatabase()
     }
 
     fun getAllReports():LiveData<List<Report>>{
