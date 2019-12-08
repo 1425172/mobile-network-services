@@ -12,11 +12,17 @@ data class Report(
     var accessPoints: List<AccessPoint> = mutableListOf(),
     var cellTowers: List<CellTower> = mutableListOf(),
     var mlsLocation: Location? = null
-):Parcelable {
+) : Parcelable {
     constructor() : this(null, null, null, mutableListOf(), mutableListOf(), null)
 
     fun distance(): Double {
         if (gpsLocation == null || mlsLocation == null) {
+            return 0.0
+        }
+        if (gpsLocation!!.latitude == null || gpsLocation!!.longitude == null) {
+            return 0.0
+        }
+        if (mlsLocation!!.latitude == null || mlsLocation!!.longitude == null) {
             return 0.0
         }
 
