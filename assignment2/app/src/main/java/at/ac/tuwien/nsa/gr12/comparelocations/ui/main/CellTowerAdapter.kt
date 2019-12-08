@@ -23,7 +23,7 @@ class CellTowerAdapter(private val cellTowers: List<CellTower>) : RecyclerView.A
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //set values
-        holder.cellTowerInfo.text =  cellTowers[position].cellId.toString()
+        holder.cellTowerInfo.text =  R.string.cellId.toString()+" " +cellTowers[position].cellId.toString()
     }
 
     override fun getItemCount(): Int {
