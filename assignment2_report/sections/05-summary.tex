@@ -1,1 +1,27 @@
 \section{Projektbericht}
+
+Im Zuge diese Übung sind wir mit vielen neuen Technologien konfrontiert worden. Manche haben einen sehr guten ersten Eindruck hinterlassen, anderer eher weniger. Zu den positiven Beispielen gehört definitiv Kotlin. Die Sprache erlaubt es, sonst komplizierte Ausdrücke, in wenigen Zeilen umzusetzen. Folgende Sprachfeatures sind besonders aufgefallen:
+\begin{itemize}
+	\item \textbf{Data Classes} \\
+	Das Erstellen von Klassen ist in Java mit sehr viel Boilerplate Code behaftet. Data Classes bieten hier eine Abhilfe. Konzepte wie Microtypes lassen sich damit leicht umsetzten.
+
+	\item \textbf{Non-Null} \\
+	Um in Java stabile Software zu bauen sind unzählige Null-Checks notwendig. Hier bietet Kotlin einen großen Vorteil.
+\end{itemize}
+
+Zu den Negativbeispielen gehört leider das Android-Framework selbst. Als Anfänger muss man sich durch einige Tutorials durcharbeiten um die Basics gut zu verstehen. Dazu kommt, dass einige Schnittstellen nicht intuitiv sind und bei falscher Verwendung verwirrende Fehlermeldungen werfen. Das Permission-System bleibt hier besonders in Erinnerung. Hier obliegt es dem Entwickler, dass er die dementsprechenden Berechtigungen vor dem Zugriff auf z.B. die Wifi-Schnittstelle überprüft. Hier ist nicht klar wie oft das passieren muss, bzw. warum das nicht Android selbst erledigen kann.
+
+Sehr positive Erfahrungen hatten wir mit Retrofit. Es war einfach und schnell eine REST-Schnittstelle anzubinden. In Kombination mit Kotlin Data Classes wird der Boilerplate Code zusätzlich um einiges reduziert.
+
+Noch zu Erwähnen ist Room. Room erlaubt einen einfachen Zugriff auf die SQLLite Datenbank. Leider war uns jedoch nicht ganz klar, dass Room kein vollständiger ORM ist. Das hat einiges an Zeit beansprucht.
+
+\begin{comment}
+	Kotlin
+	 - gute Erfahrung, interessante Sprache, vieles ist einfacher zu schreiben (data classes), Coroutines
+	Android
+	 - steile Lernkurve,  viele Sachen sind nicht intuitiv (Permissions), Exceptions vom Framework sind oft nichtsagend
+	 Room
+	 - Room ist kein ORM!!
+	 Retrofit
+	 - TOP, es ist sehr leicht, dass man eine WebAPI anbindet
+\end{comment}
