@@ -1,0 +1,223 @@
+{
+  "accessPoints": [
+    {
+      "macAddress": "a0:d3:c1:df:c3:d1",
+      "signalStrength": -63
+    },
+    {
+      "macAddress": "80:2a:a8:54:18:99",
+      "signalStrength": -64
+    },
+    {
+      "macAddress": "82:2a:a8:54:18:99",
+      "signalStrength": -64
+    },
+    {
+      "macAddress": "d0:5b:a8:b2:66:f7",
+      "signalStrength": -67
+    },
+    {
+      "macAddress": "34:31:c4:1b:ee:21",
+      "signalStrength": -68
+    },
+    {
+      "macAddress": "b0:c1:9e:5f:72:5a",
+      "signalStrength": -68
+    },
+    {
+      "macAddress": "e4:7d:eb:22:29:cf",
+      "signalStrength": -69
+    },
+    {
+      "macAddress": "0c:f8:93:d3:c9:80",
+      "signalStrength": -69
+    },
+    {
+      "macAddress": "76:4d:28:19:ff:43",
+      "signalStrength": -69
+    },
+    {
+      "macAddress": "58:ef:68:a6:33:71",
+      "signalStrength": -70
+    },
+    {
+      "macAddress": "74:da:38:2e:de:78",
+      "signalStrength": -70
+    },
+    {
+      "macAddress": "74:4d:28:19:ff:43",
+      "signalStrength": -70
+    },
+    {
+      "macAddress": "b8:69:f4:85:88:6b",
+      "signalStrength": -71
+    },
+    {
+      "macAddress": "ba:69:f4:85:88:6b",
+      "signalStrength": -71
+    },
+    {
+      "macAddress": "60:38:e0:da:5d:b7",
+      "signalStrength": -71
+    },
+    {
+      "macAddress": "b8:bc:1b:2a:1c:bc",
+      "signalStrength": -72
+    },
+    {
+      "macAddress": "6e:3b:6b:30:cb:fb",
+      "signalStrength": -72
+    },
+    {
+      "macAddress": "6c:3b:6b:30:cb:fb",
+      "signalStrength": -73
+    },
+    {
+      "macAddress": "60:14:66:76:3d:4d",
+      "signalStrength": -74
+    },
+    {
+      "macAddress": "80:2a:a8:3a:03:f9",
+      "signalStrength": -74
+    },
+    {
+      "macAddress": "34:da:b7:8c:cb:95",
+      "signalStrength": -76
+    },
+    {
+      "macAddress": "82:2a:a8:55:18:99",
+      "signalStrength": -76
+    },
+    {
+      "macAddress": "92:2a:a8:55:18:99",
+      "signalStrength": -76
+    },
+    {
+      "macAddress": "60:14:66:8a:73:ac",
+      "signalStrength": -77
+    },
+    {
+      "macAddress": "d8:b6:b7:fd:bc:2f",
+      "signalStrength": -77
+    },
+    {
+      "macAddress": "ba:69:f4:85:88:6c",
+      "signalStrength": -78
+    },
+    {
+      "macAddress": "b8:69:f4:85:88:6c",
+      "signalStrength": -78
+    },
+    {
+      "macAddress": "62:78:b3:ff:e9:99",
+      "signalStrength": -79
+    },
+    {
+      "macAddress": "30:91:8f:b8:7e:6f",
+      "signalStrength": -79
+    },
+    {
+      "macAddress": "50:0f:f5:37:0f:a1",
+      "signalStrength": -79
+    },
+    {
+      "macAddress": "76:4d:28:19:ff:44",
+      "signalStrength": -80
+    },
+    {
+      "macAddress": "74:4d:28:19:ff:44",
+      "signalStrength": -80
+    },
+    {
+      "macAddress": "60:38:e0:da:5d:b8",
+      "signalStrength": -82
+    },
+    {
+      "macAddress": "02:27:22:ef:a4:b4",
+      "signalStrength": -82
+    },
+    {
+      "macAddress": "e2:c1:9e:5f:72:5a",
+      "signalStrength": -83
+    },
+    {
+      "macAddress": "00:be:3b:b5:bf:f8",
+      "signalStrength": -83
+    },
+    {
+      "macAddress": "f2:9f:c2:7b:22:6e",
+      "signalStrength": -84
+    },
+    {
+      "macAddress": "02:9f:c2:7b:22:6e",
+      "signalStrength": -85
+    },
+    {
+      "macAddress": "50:0f:f5:37:0f:b5",
+      "signalStrength": -85
+    },
+    {
+      "macAddress": "1a:d6:c7:90:c3:12",
+      "signalStrength": -86
+    },
+    {
+      "macAddress": "00:be:3b:b5:bf:fa",
+      "signalStrength": -86
+    },
+    {
+      "macAddress": "f0:9f:c2:7b:22:6e",
+      "signalStrength": -86
+    },
+    {
+      "macAddress": "00:27:22:ef:a4:b4",
+      "signalStrength": -86
+    },
+    {
+      "macAddress": "b8:69:f4:85:8a:8e",
+      "signalStrength": -87
+    },
+    {
+      "macAddress": "02:a0:57:1a:f8:e3",
+      "signalStrength": -87
+    },
+    {
+      "macAddress": "dc:9f:db:7e:55:74",
+      "signalStrength": -87
+    },
+    {
+      "macAddress": "c0:c5:22:ec:e8:16",
+      "signalStrength": -89
+    },
+    {
+      "macAddress": "38:70:0c:df:d2:86",
+      "signalStrength": -89
+    },
+    {
+      "macAddress": "ba:69:f4:85:8a:8e",
+      "signalStrength": -89
+    }
+  ],
+  "cellTowers": [
+    {
+      "cellId": 1026130,
+      "locationAreaCode": 59488,
+      "mobileCountryCode": 232,
+      "mobileNetworkCode": 3,
+      "radioType": "wcdma",
+      "signalStrength": -61
+    }
+  ],
+  "date": "Dec 10, 2019 19:52:02",
+  "distance": 46.888718,
+  "gpsLocation": {
+    "accuracy": 12.864,
+    "latitude": 48.30486033,
+    "longitude": 14.28666125
+  },
+  "id": 1,
+  "mlsLocation": {
+    "accuracy": 135.86705,
+    "latitude": 48.305232,
+    "longitude": 14.2869598
+  }
+}

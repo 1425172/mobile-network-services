@@ -1,0 +1,71 @@
+{
+  "accessPoints": [
+    {
+      "macAddress": "60:14:66:28:45:f0",
+      "signalStrength": -67
+    },
+    {
+      "macAddress": "5e:29:37:ea:f5:0f",
+      "signalStrength": -70
+    },
+    {
+      "macAddress": "00:1d:d2:8d:7a:f0",
+      "signalStrength": -72
+    },
+    {
+      "macAddress": "ee:5c:68:4e:7f:36",
+      "signalStrength": -74
+    },
+    {
+      "macAddress": "00:90:7f:40:f3:d1",
+      "signalStrength": -77
+    },
+    {
+      "macAddress": "a0:21:b7:68:8f:64",
+      "signalStrength": -81
+    },
+    {
+      "macAddress": "9c:34:26:4f:e0:d0",
+      "signalStrength": -83
+    },
+    {
+      "macAddress": "50:cc:f8:ef:6e:11",
+      "signalStrength": -83
+    },
+    {
+      "macAddress": "00:16:fb:cc:0c:84",
+      "signalStrength": -83
+    },
+    {
+      "macAddress": "74:88:8b:f7:e1:55",
+      "signalStrength": -84
+    },
+    {
+      "macAddress": "60:31:97:f8:c2:70",
+      "signalStrength": -88
+    }
+  ],
+  "cellTowers": [
+    {
+      "cellId": 25098253,
+      "locationAreaCode": 14032,
+      "mobileCountryCode": 232,
+      "mobileNetworkCode": 3,
+      "radioType": "lte",
+      "signalStrength": -80
+    }
+  ],
+  "date": "Dec 10, 2019 20:06:29",
+  "distance": 111.874916,
+  "gpsLocation": {
+    "accuracy": 11.792,
+    "latitude": 48.30640628,
+    "longitude": 14.29836862
+  },
+  "id": 3,
+  "mlsLocation": {
+    "accuracy": 200.89914,
+    "latitude": 48.3054039,
+    "longitude": 14.298239
+  }
+}
