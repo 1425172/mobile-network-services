@@ -1,9 +1,9 @@
 \section{Sicherheitsmaßnahmen}
 
-Die angewendeten Sicherheitsmaßnamen unterglieder sich in zwei Teile. Einerseits wurden die gespeicherten Daten gesichert und andererseits das Passwort für die Mozilla Location Service API.
+Die angewendeten Sicherheitsmaßnamen untergliedern sich in zwei Teile. Einerseits wurden die gespeicherten Daten gesichert und andererseits das Passwort für die Mozilla Location Service API.
 
 \subsection{Daten der User}
-Alle gesammelten Bericht werden in einer SQLLite Datenbank gespeichert. Beim Aktivieren der Verschlüsselung (siehe Abbildung~\ref{fig:overview} links unten) wird die Datenbank verschlüsselt. Die nötige Passphrase generiert die Applikation automatisch und wird in den \texttt{SharedPrefrences} (\texttt{MODE\_PRIVAT}) gespeichert. Damit hat jede Installation der Anwendung sein eigenes Datenbank Passwort. Die Verschlüsselung erfolgt über \\ \texttt{SQLCipherUtils.encrypt(...)}. Daraus ist nicht ersichtlich welches Verschlüsselungsverfahren verwendet wird.
+Alle gesammelten Berichte werden in einer SQLLite Datenbank gespeichert. Beim Aktivieren der Verschlüsselung (siehe Abbildung~\ref{fig:overview} links unten) wird die Datenbank verschlüsselt. Die nötige Passphrase generiert die Applikation automatisch und wird in den \texttt{SharedPrefrences} (\texttt{MODE\_PRIVAT}) gespeichert. Damit hat jede Installation der Anwendung ihr eigenes Datenbankpasswort. Die Verschlüsselung erfolgt über \\ \texttt{SQLCipherUtils.encrypt(...)}. Daraus ist nicht ersichtlich welches Verschlüsselungsverfahren verwendet wird.
 
 \subsection{MLS Passwort}
-Das Passwort für den MLS wurde obfuskiert. Jedes Zeichen des Passworts wurde als Hexadezimalwert in einer List gespeichert. Zur Laufzeit wird daraus ein der Passwort-String generiert. Hier kann jedoch ein Angreifer mittels Reverse Engineering das Passwort wieder rekonstruieren. Die beste Lösung ist, wenn man das Passwort gar nicht in der Applikation speichert. Hier müsste jedoch der User das Passwort eingeben, oder es wird von einer externen Stelle bezogen.
+Das Passwort für den MLS wurde obfuskiert. Jedes Zeichen des Passworts wurde als Hexadezimalwert in einer List gespeichert. Zur Laufzeit wird daraus ein  Passwortstring generiert. Jedoch kann ein Angreifer mittels Reverse Engineering das Passwort wieder rekonstruieren. Die beste Lösung ist, das Passwort gar nicht in der Applikation zu speichern. Dazu der User das Passwort eingeben, oder es wird von einer externen Stelle bezogen.
