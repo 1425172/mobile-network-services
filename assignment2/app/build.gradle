@@ -26,7 +26,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "at.ac.tuwien.nsa.gr12.comparelocations"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
